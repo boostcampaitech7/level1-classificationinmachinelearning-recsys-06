@@ -7,10 +7,7 @@
 │   ├── model # AI 모델 Code ex) LSTM.. 
 │   └── pre_process # 모델 학습전 전처리
 ├── data #.gitignore
-│   ├── .csv
-│   ├── classify.py
-│   ├── model.py
-│   └── dataset.py
+│   └── .csv #.gitignore
 ├── EDA # 개인 EDA 폴더
 │   └── {팀원 명} 
 │        ├──*.ipynb
