@@ -17,6 +17,7 @@ class Model:
         self.data = data
         self._get_config()  # 하이퍼 파라미터 부분 및 기타 설정 - config.yaml 수정에 따라 사용
         self.model_type = self.config.get("server").get("model_type")
+        self.pre_process_type = self.config.get("server").get("pre_process_type")
         self.model: ModelInterface
         self.train_df: pd.DataFrame | None = None
         self.test_df: pd.DataFrame | None = None
@@ -49,7 +50,7 @@ class Model:
             raise Exception(f"{self.model_type}: 해당 모델은 지원되지 않습니다.")
 
     def _get_pre_process(self) -> [PreProcessInterface]:
-        if self.model_type.lower() == "baseline":
+        if self.pre_process_type.lower() == "baseline":
             return BaseLineData
         else:
             raise Exception(f"{self.model_type}: 해당 모델은 지원되지 않습니다.")

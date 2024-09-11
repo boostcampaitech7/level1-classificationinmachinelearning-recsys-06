@@ -1,6 +1,7 @@
 server:
   no: 1
   model_type: "baseline"
+  pre_process_type: "baseline"
 
 data:
   valid_size: 0.2
