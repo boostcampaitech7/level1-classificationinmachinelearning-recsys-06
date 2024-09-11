@@ -3,8 +3,10 @@ from typing import Dict, List, Tuple
 import numpy as np
 import pandas as pd
 
+from Code.pre_procecss.interface import PreProcessInterface
 
-class BaseLineData:
+
+class BaseLineData(PreProcessInterface):
     def __init__(self, df: pd.DataFrame):
         self.cols_dict: Dict[str, str] = {
             "ID": "ID",
