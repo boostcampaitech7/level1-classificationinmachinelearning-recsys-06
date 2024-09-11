@@ -1,0 +1,17 @@
+server:
+  no: 1
+  model_type: "baseline"
+
+data:
+  valid_size: 0.2
+  random_state: 42
+
+light-gbm:
+  boosting_type: "gbdt"
+  objective: "multiclass"
+  metric: "multi_logloss"
+  num_class: 4
+  num_leaves: 50
+  learning_rate: 0.01
+  n_estimators: 30
+  verbose: 0
