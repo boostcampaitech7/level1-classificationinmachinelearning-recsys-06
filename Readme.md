@@ -6,6 +6,7 @@
 
 ```bash
 ├── Code # AI 모델 학습을 위한 부분
+│   ├── config # config.yaml 값 가져 오는 함수 제공
 │   ├── dataset # 기존 raw데이터 합치기
 │   ├── model # AI 모델 Code ex) LSTM.. 
 │   └── pre_process # 모델 학습전 전처리
@@ -14,6 +15,7 @@
 ├── EDA # 개인 EDA 폴더
 │   └── {팀원 명} 
 │        ├──*.ipynb
+├── config-sample.yaml # 하이퍼 파라미터 및 모델&서버 선택을 위한 설정 값
 ├── .gitignore
 ├── Readme.md
 └── requirements.txt

@@ -7,3 +7,6 @@ lightgbm==4.3.0
 scipy==1.11.4
 plotly==5.22.0
 nbformat==5.10.4
+
+yaml~=0.2.5
+pyyaml~=6.0.2
