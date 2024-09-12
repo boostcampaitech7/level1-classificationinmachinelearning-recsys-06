@@ -1,5 +1,7 @@
+import os.path
 from typing import Dict
 
+import joblib
 import lightgbm as lgb
 import numpy as np
 import pandas as pd
@@ -92,3 +94,6 @@ class LightGBM(ModelInterface):
     def _reset_model(self):
         self.mode = None
         self.model = None
+
+    def export_model(self, dir_path):
+        joblib.dump(self.model, os.path.join(dir_path, "lightgbm.pkl"))

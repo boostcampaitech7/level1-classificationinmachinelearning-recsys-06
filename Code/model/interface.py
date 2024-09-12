@@ -19,3 +19,7 @@ class ModelInterface(ABC):
     @abstractmethod
     def train_validation(self) -> None:
         pass
+
+    @abstractmethod
+    def export_model(self, dir_path: str):
+        pass

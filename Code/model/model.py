@@ -1,4 +1,4 @@
-from typing import Type
+from typing import Type, Tuple
 
 import pandas as pd
 from numpy import ndarray
@@ -13,11 +13,15 @@ class Model:
     def __init__(
             self,
             data: pd.DataFrame,
+            model_type: str = None,
+            pre_process_type: str = None,
     ):
         self.data = data
         self._get_config()  # 하이퍼 파라미터 부분 및 기타 설정 - config-sample.yaml 수정에 따라 사용
-        self.model_type = self.config.get("server").get("model_type")
-        self.pre_process_type = self.config.get("server").get("pre_process_type")
+        if model_type is None:
+            self.model_type = self.config.get("server").get("model_type")
+        if pre_process_type is None:
+            self.pre_process_type = self.config.get("server").get("pre_process_type")
         self.model: ModelInterface
         self.train_df: pd.DataFrame | None = None
         self.test_df: pd.DataFrame | None = None
@@ -65,3 +69,9 @@ class Model:
         return self.model.predict(
             self.test_df.drop(["target", "ID"], axis=1, errors="ignore")
         )
+
+    def get_train_test_data(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        return self.train_df, self.test_df
+
+    def get_model(self, dir_path: str) -> ModelInterface:
+        return self.model.export_model(dir_path)
