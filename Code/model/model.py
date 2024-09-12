@@ -11,11 +11,11 @@ from Code.pre_procecss.interface import PreProcessInterface
 
 class Model:
     def __init__(
-        self,
-        data: pd.DataFrame,
+            self,
+            data: pd.DataFrame,
     ):
         self.data = data
-        self._get_config()  # 하이퍼 파라미터 부분 및 기타 설정 - config.yaml 수정에 따라 사용
+        self._get_config()  # 하이퍼 파라미터 부분 및 기타 설정 - config-sample.yaml 수정에 따라 사용
         self.model_type = self.config.get("server").get("model_type")
         self.pre_process_type = self.config.get("server").get("pre_process_type")
         self.model: ModelInterface

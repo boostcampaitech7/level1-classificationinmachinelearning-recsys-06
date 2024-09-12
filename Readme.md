@@ -13,7 +13,7 @@
 ├── EDA # 개인 EDA 폴더
 │   └── {팀원 명} 
 │        ├──*.ipynb
-├── config.yaml # 하이퍼 파라미터 및 모델&서버 선택을 위한 설정 값
+├── config-sample.yaml # 하이퍼 파라미터 및 모델&서버 선택을 위한 설정 값
 ├── .gitignore
 ├── Readme.md
 └── requirements.txt
