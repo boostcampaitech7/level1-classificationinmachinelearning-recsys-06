@@ -4,8 +4,9 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+*.csv
 # C extensions
+config.yaml
 *.so
 
 # Distribution / packaging
