@@ -4,19 +4,29 @@ from typing import Dict
 import joblib
 import pandas as pd
 import numpy as np
+
 import xgboost as xgb
 from sklearn.metrics import accuracy_score, roc_auc_score
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import f1_score
 
 from Code.model.interface import ModelInterface
+
 
 
 class XGBoost(ModelInterface):
     """
     XGBoost model
 
-    lgbm에선 lgb.Dataset을 사용했지만 xgb에선 xgb.DMatrix를 사용합니다. 
+    xgb에선 xgb.DMatrix를 사용합니다. (lgbm에선 lgb.Dataset을 사용)
     xbgoost 사용 시 기본적으로 수치형데이터만 입력으로 받으므로 범주형 변수를 미리 인코딩 해야합니다.
+    결측치는 자동으로 처리하므로 결측치가 많지 않은 데이터는 따로 처리하지 않아도 됩니다.
+    feature importance를 확인할 수 있고, early stopping을 사용할 수 있습니다.
+
+    train() = 모델 트레이닝 입니다.
+    train_validation() = Validation을 위한 모델 트레이닝 입니다.
+    predict() = train() 혹은 train_validation() 후, 예측을 위한 메서드 입니다. - 모델이 없을 경우(오류 발생)
+                / 모델이 있을 경우(결과 & print("validation" or "train") - 모드)
     
     """
 
@@ -78,13 +88,14 @@ class XGBoost(ModelInterface):
 
             # xgb predict
             y_valid_pred = self.predict(x_valid)
-            y_valid_pred_class = np.argmax(y_valid_pred, axis=1)
+            y_valid_pred_class = np.argmax(y_valid_pred, axis=1) # multi:softprob 모드 사용시 class로 변환 필요
 
             # score check
             accuracy = accuracy_score(y_valid, y_valid_pred_class)
             auroc = roc_auc_score(y_valid, y_valid_pred, multi_class='ovr')
+            f1 = f1_score(y_valid, y_valid_pred_class, average='weighted')
 
-            print(f"acc: {accuracy}, auroc: {auroc}")
+            print(f"acc: {accuracy}, auroc: {auroc}, f1: {f1}")
         except Exception as e:
             print(e)
             self._reset_model()
