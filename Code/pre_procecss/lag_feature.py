@@ -37,16 +37,6 @@ class PreProcessor(PreProcessInterface):
         self.df = self.df.dropna(subset=relevant_columns).reset_index(drop=True)
         return self.df
 
-    # RSI 계산 메서드
-    def calculate_rsi(self, column, period=14):
-        delta = self.df[column].diff()
-        gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
-        loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()
-
-        rs = gain / (loss + 1e-10)  # 0으로 나누는 것 방지
-        self.df[f'{column}_rsi_{period}'] = 100 - (100 / (1 + rs))
-        return self.df
-
     # 기본 전처리 실행 메서드 (사용자 정의 가능)
     def _preprocess(self):
         pass
