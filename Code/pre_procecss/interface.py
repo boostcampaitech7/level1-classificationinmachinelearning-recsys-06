@@ -9,9 +9,13 @@ class PreProcessInterface(ABC):
         pass
 
     @abstractmethod
-    def get_train_test(self):
+    def get_train_test(self) -> (pd.DataFrame, pd.DataFrame):
         pass
 
     @abstractmethod
     def _preprocess(self):
+        pass
+
+    @abstractmethod
+    def get_data(self) -> pd.DataFrame:
         pass
