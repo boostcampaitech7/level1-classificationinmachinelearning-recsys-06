@@ -17,3 +17,7 @@ light-gbm:
   learning_rate: 0.01
   n_estimators: 30
   verbose: 0
+
+lag-feature:
+  max_lag: 3
+  windows: [3, 6, 12]

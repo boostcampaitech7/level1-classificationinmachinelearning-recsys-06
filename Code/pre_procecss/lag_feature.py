@@ -1,6 +1,6 @@
 import pandas as pd
 from Code.pre_procecss.interface import PreProcessInterface
-
+import yaml
 
 class PreProcessor(PreProcessInterface):
     
@@ -37,6 +37,11 @@ class PreProcessor(PreProcessInterface):
         self.df = self.df.dropna(subset=relevant_columns).reset_index(drop=True)
         return self.df
 
-    # 기본 전처리 실행 메서드 (사용자 정의 가능)
-    def _preprocess(self):
-        pass
+    def get_train_test(self):
+        return (
+            self.df.loc[self.df["_type"] == "train"],
+            self.df.loc[self.df["_type"] == "test"],
+        )
+
+    def get_data(self) -> pd.DataFrame:
+        return self.df
