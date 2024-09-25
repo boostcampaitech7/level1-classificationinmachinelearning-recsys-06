@@ -8,6 +8,14 @@ class PreProcessor(PreProcessInterface):
         self.df: pd.DataFrame = df
         self._preprocess()
 
+    def _load_config(self, config_path):
+        with open(config_path, 'r') as file:
+            config = yaml.safe_load(file)
+        return config
+    
+    def _preprocess(self):
+        pass
+
     # 시차 (Lag) 특성 생성 메서드
     def create_lag_features(self, columns, max_lag):
         for col in columns:
