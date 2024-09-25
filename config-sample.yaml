@@ -17,3 +17,14 @@ light-gbm:
   learning_rate: 0.01
   n_estimators: 30
   verbose: 0
+
+xgboost:
+  objective: "multi:softmax"
+  eval_metric: "mlogloss"
+  num_class: 4
+  max_depth: 7
+  learning_rate: 0.05
+  subsample: 0.9
+  colsample_bytree: 0.9
+  early_stopping_rounds: 10
+  verbose: 0
