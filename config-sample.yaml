@@ -1,9 +1,9 @@
 # Server / Simple Model Config
 server:
   no: 1
-  model_type: "baseline"
+  model_type: "xgboost"
   pre_process_type:
-    - "baseline"
+    - "final"
 
 # Data Config
 data:
