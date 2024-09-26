@@ -69,7 +69,7 @@ class PreProcessor(PreProcessInterface):
             'total_volume': total_volume,
         }
         self.get_scaled_dict_and_transform_scaled(df, features.keys())
-
+        test_start_idx = df.loc[df["_type"] == "test"].index[0]
         for k, v in features.items():
             # train 데이터 처리
             scaler = StandardScaler()
@@ -79,7 +79,10 @@ class PreProcessor(PreProcessInterface):
                 feature = v
             else:
                 feature = np.log1p(v)
-            df.loc[:, f'scaled_log_{v}'] = scaler.fit_transform(feature.values.reshape(-1, 1))
+            df.loc[df["_type"] == "train", f'scaled_log_{v}'] = scaler.fit_transform(
+                feature.values[:test_start_idx].reshape(-1, 1))
+            df.loc[df["_type"] == "test", f'scaled_log_{v}'] = scaler.transform(
+                feature.values[test_start_idx:].reshape(-1, 1))
 
         df.loc[:, 'moving_avg_scaled_log_total_volume'] = df['scaled_log_total_volume'].rolling(window=24,
                                                                                                 min_periods=1).mean()
