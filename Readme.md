@@ -104,9 +104,12 @@ nbformat==5.10.4
 * 사용 결과 : 훈련 시간이 길고, validation 결과 종가가 -log 함수처럼 값이 하락 수렴하는 추세가 나와 적합하지 않다고 판단.
 
 ## 5. 최종 선택
-1. XGBoost
+
+
 <details>
-    <summary> 하이퍼파라미터 세팅 </summary>
+    <summary> 1. XGBoost : Public Score - 0.4020(Accuracy) / Private Score - 0.3960(Accuracy) </summary>
+
+* 하이퍼 파라미터 세팅
 
 ```json
 {
@@ -121,10 +124,12 @@ nbformat==5.10.4
 }
 ```
 </details>
-2. LightGBM
+
 
 <details>
-    <summary> 하이퍼파라미터 세팅 </summary>
+    <summary> 2. LightGBM : Public Score - 0.3814(Accuracy) / Private Score - 0.4025 (Accuracy) </summary>
+
+* 하이퍼 파라미터 세팅
 
 ```json
 {
