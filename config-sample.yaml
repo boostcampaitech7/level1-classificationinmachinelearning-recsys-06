@@ -9,7 +9,7 @@ server:
 data:
   valid_size: 0.2
   random_state: 42
-  path: "../data/raw.csv"
+  path: "./data/raw.csv"
 
 ## Model Config
 light-gbm:

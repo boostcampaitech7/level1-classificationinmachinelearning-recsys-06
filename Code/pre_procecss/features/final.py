@@ -45,8 +45,6 @@ class PreProcessor(PreProcessInterface):
             "ID": "ID",
             "_type": "_type",
             "target": "target",
-            "spot_closed_difference": "difference",
-            "spot_closed_percent": "percent",
             "hourly_network-data_hashrate_hashrate": "hashrate",
             "hourly_market-data_taker-buy-sell-stats_all_exchange_taker_buy_sell_ratio": "taker_buy_sell_ratio",
             "hourly_market-data_open-interest_all_exchange_all_symbol_open_interest": "open_interest",
@@ -97,7 +95,7 @@ class PreProcessor(PreProcessInterface):
             estimated_block_reward_usd=(
                     self.df["fees_block_mean_usd"] / self.df["fees_reward_percent"]
             ),
-            open_interst_diff=self.df["open_interest"].diff(),
+            open_interest_diff=self.df["open_interest"].diff(),
             moving_avg_open_interest=self.df["open_interest"]
             .rolling(window=24, min_periods=1)
             .mean(),
@@ -117,23 +115,29 @@ class PreProcessor(PreProcessInterface):
             "utxo_count": False,
             "transactions_count_total": False,
         }
+        # col_scaled_list = []
         # 훈련 및 테스트 데이터프레임 분리
         train_df = self.df.loc[self.df["_type"] == "train"].copy()
         test_df = self.df.loc[self.df["_type"] == "test"].copy()
         # 스케일러 정의
         from Code.pre_procecss.features import get_scaled_dict_and_transform_scaled
 
-        for k, v in col_log_dict:
+        # train_df, scaleDict = get_scaled_dict_and_transform_scaled(
+        #     train_df, col_scaled_list
+        # )
+
+        for k, v in col_log_dict.items():
             feature = train_df[k].values.reshape(-1, 1)
             name_prefix = "scaled"
             if v is True:
                 feature = np.log1p(feature)
                 name_prefix = "scaled_log"
-            feature, scaler = get_scaled_dict_and_transform_scaled(
-                feature, k, name_prefix
+            feature, scaler = get_scaled_dict_and_transform_scaled(feature, k)
+            scaler = scaler[k]
+            train_df[f"{name_prefix}_{k}"] = feature
+            test_df[f"{name_prefix}_{k}"] = scaler.transform(
+                test_df[k].values.reshape(-1, 1)
             )
-            train_df[k] = feature
-            test_df[k] = scaler(test_df[k].values.reshape(-1, 1))
 
         # moving_avg_scaled_log_total_volume 표준화
         train_df["moving_avg_scaled_log_total_volume"] = (
@@ -152,6 +156,7 @@ class PreProcessor(PreProcessInterface):
         self._rename_column()
         # New Features
         self._create_new_features()
+        self._transform_features()
 
         # 최종 데이터프레임 통합
         selected_columns = [
@@ -161,13 +166,13 @@ class PreProcessor(PreProcessInterface):
             "scaled_log_hashrate",
             "scaled_log_open_interest",
             "scaled_log_coinbase_premium_index",
-            "scaled_funding_rates",
-            "scaled_estimated_block_reward",
+            "scaled_log_funding_rates",
+            "scaled_log_estimated_block_reward_usd",
             "scaled_liquidation_diff",
-            "scaled_log_total_liquidation",
+            "scaled_log_total_liquidations",
             "scaled_log_total_taker_volume",
             "scaled_utxo_count",
-            "scaled_total_transactions_count",
+            "scaled_transactions_count_total",
             "taker_buy_sell_ratio",
             "moving_avg_scaled_log_total_volume",
             "open_interest_diff",
@@ -183,4 +188,6 @@ class PreProcessor(PreProcessInterface):
 
     def get_train_test(self) -> (pd.DataFrame, pd.DataFrame):
         df = self.df
-        return df.loc[df["_type"] == "train"], df.loc[df["_type"] == "test"]
+        return df.loc[df["_type"] == "train"].drop(columns=["ID", "_type"]), df.loc[
+            df["_type"] == "test"
+            ].drop(columns=["ID", "_type"])
