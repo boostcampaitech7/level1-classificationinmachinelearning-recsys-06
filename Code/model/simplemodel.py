@@ -5,7 +5,7 @@ from numpy import ndarray
 
 from Code.pre_procecss.interface import PreProcessInterface
 from Code.model.interface import ModelInterface
-from Code.pre_procecss.baseline import BaseLineData
+from Code.pre_procecss.features.baseline import BaseLineData
 
 
 class SimpleModel:
@@ -73,15 +73,23 @@ class SimpleModel:
 
     def _get_pre_process(self) -> list[Type[PreProcessInterface]]:
         # PreProcess Class Import
-        from Code.pre_procecss.column_rename import PreProcessor as col_rename_pp
-        from Code.pre_procecss.features.datetime import PreProcessor as datetime_pp
-        from Code.pre_procecss.features.taker_buy_sell import (
-            PreProcessor as taker_bs_pp,
-        )
-        from Code.pre_procecss.features.target import PreProcessor as target_pp
+        # from Code.pre_procecss.column_rename import PreProcessor as col_rename_pp
+        # from Code.pre_procecss.features.deprecated.datetime import (
+        #     PreProcessor as datetime_pp,
+        # )
+        # from Code.pre_procecss.features.deprecated.taker_buy_sell import (
+        #     PreProcessor as taker_bs_pp,
+        # )
+        # from Code.pre_procecss.features.deprecated.target import (
+        #     PreProcessor as target_pp,
+        # )
+        #
+        # from Code.pre_procecss.features.deprecated.scaled_log_transform import (
+        #     PreProcessor as scaled_log_transform_pp,
+        # )
 
-        from Code.pre_procecss.features.scaled_log_transform import (
-            PreProcessor as scaled_log_transform_pp,
+        from Code.pre_procecss.features.final import (
+            PreProcessor as final_pp,
         )
 
         # Type별 Class 전처리 추가
@@ -89,16 +97,19 @@ class SimpleModel:
         for pre_process_type in self.pre_process_types:
             if pre_process_type.lower() == "baseline":
                 pp_list.append(BaseLineData)
-            elif pre_process_type.lower() == "column_rename":
-                pp_list.append(col_rename_pp)
-            elif pre_process_type.lower() == "datetime":
-                pp_list.append(datetime_pp)
-            elif pre_process_type.lower() == "taker_buy_sell":
-                pp_list.append(taker_bs_pp)
-            elif pre_process_type.lower() == "target":
-                pp_list.append(target_pp)
-            elif pre_process_type.lower() == "scaled_log_transform":
-                pp_list.append(scaled_log_transform_pp)
+
+            elif pre_process_type.lower() == "final":
+                pp_list.append(final_pp)
+                # elif pre_process_type.lower() == "column_rename":
+                # pp_list.append(col_rename_pp)
+                # elif pre_process_type.lower() == "datetime":
+                #     pp_list.append(datetime_pp)
+                # elif pre_process_type.lower() == "taker_buy_sell":
+                #     pp_list.append(taker_bs_pp)
+                # elif pre_process_type.lower() == "target":
+                #     pp_list.append(target_pp)
+                # elif pre_process_type.lower() == "scaled_log_transform":
+                # pp_list.append(scaled_log_transform_pp)
             else:
                 raise Exception(f"{self.model_type}: 해당 모델은 지원되지 않습니다.")
         return pp_list
