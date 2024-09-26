@@ -104,4 +104,39 @@ nbformat==5.10.4
 * 사용 결과 : 훈련 시간이 길고, validation 결과 종가가 -log 함수처럼 값이 하락 수렴하는 추세가 나와 적합하지 않다고 판단.
 
 ## 5. 최종 선택
-> XGBoost LightGBM
+1. XGBoost
+<details>
+    <summary> 하이퍼파라미터 세팅 </summary>
+
+```json
+{
+    "objective": "multi:softprob",  # 다중 클래스 분류
+    "num_class": len(y_train_resampled.unique()),  # 클래스 개수
+    "eval_metric": "mlogloss",  # 손실 함수 (멀티클래스 로지스틱 손실)
+    "max_depth": 7,
+    "learning_rate": 0.01,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "seed": 42
+}
+```
+</details>
+2. LightGBM
+
+<details>
+    <summary> 하이퍼파라미터 세팅 </summary>
+
+```json
+{
+    "boosting_type": "gbdt",
+    "objective": "multiclass",
+    "metric": "multi_logloss",
+    "num_class": 4,
+    "num_leaves": 50,
+    "learning_rate": 0.05,
+    "n_estimators": 30,
+    "random_state": 42,
+    "verbose": -1,
+}
+```
+</details>
