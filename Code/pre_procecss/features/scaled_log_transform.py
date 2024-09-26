@@ -74,10 +74,12 @@ class PreProcessor(PreProcessInterface):
             # train 데이터 처리
             scaler = StandardScaler()
             if type(v) == str:
-                log_feature = np.log1p(df[k])
+                feature = np.log1p(df[k])
+            elif v == "liquidation_diff":
+                feature = v
             else:
-                log_feature = np.log1p(v)
-            df.loc[:, f'scaled_log_{v}'] = scaler.fit_transform(log_feature.values.reshape(-1, 1))
+                feature = np.log1p(v)
+            df.loc[:, f'scaled_log_{v}'] = scaler.fit_transform(feature.values.reshape(-1, 1))
 
         df.loc[:, 'moving_avg_scaled_log_total_volume'] = df['scaled_log_total_volume'].rolling(window=24,
                                                                                                 min_periods=1).mean()
