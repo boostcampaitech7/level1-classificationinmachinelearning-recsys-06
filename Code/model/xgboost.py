@@ -13,8 +13,7 @@ from sklearn.metrics import f1_score
 from Code.model.interface import ModelInterface
 
 
-
-class XGBoost(ModelInterface):
+class Model(ModelInterface):
     """
     XGBoost model
 
@@ -27,7 +26,7 @@ class XGBoost(ModelInterface):
     train_validation() = Validation을 위한 모델 트레이닝 입니다.
     predict() = train() 혹은 train_validation() 후, 예측을 위한 메서드 입니다. - 모델이 없을 경우(오류 발생)
                 / 모델이 있을 경우(결과 & print("validation" or "train") - 모드)
-    
+
     """
 
     def __init__(self, x_train: pd.DataFrame, y_train: pd.DataFrame, config: any):
@@ -83,17 +82,19 @@ class XGBoost(ModelInterface):
             self.model = xgb.train(
                 params=self.hyper_params,
                 dtrain=dtrain,
-                evals=[(dvalid, 'eval')],
+                evals=[(dvalid, "eval")],
             )
 
             # xgb predict
             y_valid_pred = self.predict(x_valid)
-            y_valid_pred_class = np.argmax(y_valid_pred, axis=1) # multi:softprob 모드 사용시 class로 변환 필요
+            y_valid_pred_class = np.argmax(
+                y_valid_pred, axis=1
+            )  # multi:softprob 모드 사용시 class로 변환 필요
 
             # score check
             accuracy = accuracy_score(y_valid, y_valid_pred_class)
-            auroc = roc_auc_score(y_valid, y_valid_pred, multi_class='ovr')
-            f1 = f1_score(y_valid, y_valid_pred_class, average='weighted')
+            auroc = roc_auc_score(y_valid, y_valid_pred, multi_class="ovr")
+            f1 = f1_score(y_valid, y_valid_pred_class, average="weighted")
 
             print(f"acc: {accuracy}, auroc: {auroc}, f1: {f1}")
         except Exception as e:
