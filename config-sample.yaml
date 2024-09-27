@@ -22,6 +22,9 @@ light-gbm:
   n_estimators: 30
   verbose: 0
 
+lag-feature:
+  max_lag: 3
+  windows: [3, 6, 12]
 xgboost:
   objective: "multi:softmax"
   eval_metric: "mlogloss"
@@ -32,5 +35,7 @@ xgboost:
   colsample_bytree: 0.9
   early_stopping_rounds: 10
   verbose: 0
-  #tree_method: 'gpu_hist' #GPU 사용시
-  #predictor: 'gpu_predictor' #GPU 사용시
+
+#tree_method: 'gpu_hist' #GPU 사용시
+#predictor: 'gpu_predictor' #GPU 사용시
+
