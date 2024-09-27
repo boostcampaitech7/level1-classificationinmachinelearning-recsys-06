@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 from Code.model.interface import ModelInterface
 
 
-class LightGBM(ModelInterface):
+class Model(ModelInterface):
     """
     LightGBM model
     해당 모델은 BaseLine 모델입니다.
