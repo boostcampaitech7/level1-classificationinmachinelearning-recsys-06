@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="Black">
-    <option name="enabledOnSave" value="true" />
-    <option name="pathToExecutable" value="C:\Users\xenx9\AppData\Local\Programs\Python\Python311\Scripts\black.exe" />
-    <option name="sdkName" value="naver_bt" />
-  </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="naver_bt" project-jdk-type="Python SDK" />
-</project>
